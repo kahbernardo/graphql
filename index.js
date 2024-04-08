@@ -1,38 +1,7 @@
 const { ApolloServer, gql } = require("apollo-server");
 const { format } = require("date-fns");
 
-const usuarios = [
-  {
-    id: 1,
-    nome: "João",
-    email: "joao@abc.com",
-    idade: 25,
-  },
-  {
-    id: 2,
-    nome: "Maria",
-    email: "maria@abc.com",
-    idade: 33,
-  },
-  {
-    id: 3,
-    nome: "Pedro",
-    email: "pedro@abc.com",
-    idade: 42,
-  },
-  {
-    id: 4,
-    nome: "Ana",
-    email: "ana@abc.com",
-    idade: 20,
-  },
-  {
-    id: 5,
-    nome: "Carlos",
-    email: "carlos@abc.com",
-    idade: 55,
-  },
-];
+const { usuarios, perfis } = require("./types");
 
 const typeDefs = gql`
   # Pontos de entrada da API
@@ -51,7 +20,10 @@ const typeDefs = gql`
     precoCalculado: Float
     descontoCalculado: Float
   }
-
+  type Perfil {
+    id: Int
+    nome: String
+  }
   type Query {
     ola: String
     rightTime: String
@@ -59,6 +31,8 @@ const typeDefs = gql`
     megaSena: [Int]!
     usuarios: [Usuario]
     usuario(id: Int): Usuario
+    perfil(id: Int): Perfil
+    perfis: [Perfil]
   }
 `;
 
@@ -115,6 +89,14 @@ const resolvers = {
       const selection = usuarios.filter((n) => n.id === id);
 
       return selection ? selection[0] : null;
+    },
+    perfil(_, { id }) {
+      const selection = perfis.filter((n) => n.id === id);
+
+      return selection ? selection[0] : null;
+    },
+    perfis() {
+      return perfis;
     },
   },
 };
