@@ -3,19 +3,63 @@ const { format } = require("date-fns");
 
 const typeDefs = gql`
   # Pontos de entrada da API
+  type Usuario {
+    id: ID!
+    nome: String
+    salario: Float
+    email: String
+    idade: Int
+    vip: Boolean
+  }
+  type Produto {
+    nome: String!
+    preco: Float!
+    desconto: Int
+    precoCalculado: Float
+    descontoCalculado: Float
+  }
   type Query {
     ola: String
     rightTime: String
+    usuario: Usuario
+    produto: Produto
   }
 `;
 
 const resolvers = {
+  Produto: {
+    precoCalculado(produto) {
+      return parseFloat(
+        produto.preco - produto.preco * (0.01 * produto.desconto)
+      );
+    },
+    descontoCalculado(produto) {
+      return parseFloat(produto.preco * (0.01 * produto.desconto));
+    },
+  },
   Query: {
     ola() {
       return "Bom dia!";
     },
     rightTime() {
       return `${format(new Date(), "HH:mm")}`;
+    },
+    usuario() {
+      return {
+        id: 1,
+        nome: "user teste",
+        email: "abc@abc.com",
+        idade: 29,
+        salario: 1234.56,
+        vip: true,
+      };
+    },
+    produto() {
+      return {
+        nome: "Sabão",
+        preco: 10.0,
+        desconto: 5,
+      };
     },
   },
 };
