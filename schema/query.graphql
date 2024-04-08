@@ -1,0 +1,10 @@
+  type Query {
+    ola: String
+    rightTime: String
+    produto: Produto
+    megaSena: [Int]!
+    usuarios: [Usuario]
+    usuario(id: Int): Usuario
+    perfil(id: Int): Perfil
+    perfis: [Perfil]
+  }
