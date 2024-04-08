@@ -12,6 +12,7 @@ const typeDefs = gql`
     email: String
     idade: Int
     vip: Boolean
+    perfil: Perfil
   }
   type Produto {
     nome: String!
@@ -45,6 +46,12 @@ const resolvers = {
     },
     descontoCalculado(produto) {
       return parseFloat(produto.preco * (0.01 * produto.desconto));
+    },
+  },
+  Usuario: {
+    perfil(usuario) {
+      const sels = perfis.filter((n) => n.id === usuario.perfil_id);
+      return sels ? sels[0] : null;
     },
   },
   Query: {
