@@ -9,15 +9,13 @@ const typeDefs = gql`
   }
 `;
 
-let data = new Date();
-
 const resolvers = {
   Query: {
     ola() {
       return "Bom dia!";
     },
     rightTime() {
-      return `${format(data, "HH:mm")}`;
+      return `${format(new Date(), "HH:mm")}`;
     },
   },
 };
