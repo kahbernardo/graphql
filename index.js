@@ -18,11 +18,13 @@ const typeDefs = gql`
     precoCalculado: Float
     descontoCalculado: Float
   }
+
   type Query {
     ola: String
     rightTime: String
     usuario: Usuario
     produto: Produto
+    megaSena: [Int]!
   }
 `;
 
@@ -60,6 +62,17 @@ const resolvers = {
         preco: 10.0,
         desconto: 5,
       };
+    },
+    megaSena() {
+      const assign = (x, y) => x - y;
+      let numeros = new Set();
+
+      while (numeros.size < 6) {
+        let numero = parseInt(Math.random() * 60 + 1);
+        numeros.add(numero);
+      }
+
+      return Array.from(numeros).sort(assign);
     },
   },
 };
