@@ -1,10 +1,43 @@
 const { ApolloServer, gql } = require("apollo-server");
 const { format } = require("date-fns");
 
+const usuarios = [
+  {
+    id: 1,
+    nome: "João",
+    email: "joao@abc.com",
+    idade: 25,
+  },
+  {
+    id: 2,
+    nome: "Maria",
+    email: "maria@abc.com",
+    idade: 33,
+  },
+  {
+    id: 3,
+    nome: "Pedro",
+    email: "pedro@abc.com",
+    idade: 42,
+  },
+  {
+    id: 4,
+    nome: "Ana",
+    email: "ana@abc.com",
+    idade: 20,
+  },
+  {
+    id: 5,
+    nome: "Carlos",
+    email: "carlos@abc.com",
+    idade: 55,
+  },
+];
+
 const typeDefs = gql`
   # Pontos de entrada da API
   type Usuario {
-    id: ID!
+    id: Int
     nome: String
     salario: Float
     email: String
@@ -22,9 +55,10 @@ const typeDefs = gql`
   type Query {
     ola: String
     rightTime: String
-    usuario: Usuario
     produto: Produto
     megaSena: [Int]!
+    usuarios: [Usuario]
+    usuario(id: Int): Usuario
   }
 `;
 
@@ -73,6 +107,14 @@ const resolvers = {
       }
 
       return Array.from(numeros).sort(assign);
+    },
+    usuarios() {
+      return usuarios;
+    },
+    usuario(_, { id }) {
+      const selection = usuarios.filter((n) => n.id === id);
+
+      return selection ? selection[0] : null;
     },
   },
 };
