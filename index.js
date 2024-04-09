@@ -1,7 +1,5 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { format } = require("date-fns");
+const { ApolloServer } = require("apollo-server");
 
-const { usuarios, perfis } = require("./data/db");
 const { importSchema } = require("graphql-import");
 const resolvers = require("./resolvers");
 
